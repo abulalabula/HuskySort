@@ -90,6 +90,9 @@ public abstract class AbstractHuskySort<X extends Comparable<X>> extends SortWit
     protected final void swap(final X[] xs, final int i, final int j) {
         huskyHelper.swap(xs, i, j);
     }
+    protected final int compare(final X[] xs, final int i, final int j) {
+        return huskyHelper.compare(xs, i, j);
+    }
 
     /**
      * Constructor for AbstractHuskySort

@@ -112,6 +112,8 @@ public class HuskySortTest {
         System.out.println(statPack);
         assertEquals(0, helper.inversions(ys));
         final int fixes = (int) statPack.getStatistics(Instrumenter.FIXES).mean();
+        System.out.println("fixes: " + fixes);
+
         assertTrue(inversionsOriginal <= fixes);
     }
 
