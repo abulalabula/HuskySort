@@ -89,7 +89,6 @@ public class QuickSortTest {
 
     @Test
     public void benchmarkQuickSort() {
-
         for (int i = 1000; i < 50000; i = i * 2) {
             for (int k = 0; k < 5; k++){
                 final Config config = ConfigTest.setupConfig("true", "0", "1", "", "");
@@ -104,7 +103,7 @@ public class QuickSortTest {
                 });
                 List<String> strList = Arrays.asList(xs);
                 Collections.shuffle(strList);
-                String[] xs1 = strList.toArray(new String[N]);
+                String[] xs1 = strList.toArray(new String[xs.length]);
                 System.out.println("N: " + N );
                 sorter.preProcess(xs1);
                 final String[] ys = sorter.sort(xs1);
