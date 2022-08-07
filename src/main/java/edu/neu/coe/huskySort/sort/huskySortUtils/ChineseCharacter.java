@@ -61,7 +61,11 @@ public class ChineseCharacter extends UnicodeCharacter {
 
     public static String convertToPinyin(final String s) {
         final StringBuilder result = new StringBuilder();
-        for (int i = 0; i < s.length(); i++) result.append(new ChineseCharacter(s.charAt(i)).alt);
+      //加上“,"以利後續處理
+        for (int i = 0; i < s.length(); i++) {
+            result.append(new ChineseCharacter(s.charAt(i)).alt);
+            result.append(",");
+        }
         return result.toString();
     }
 
