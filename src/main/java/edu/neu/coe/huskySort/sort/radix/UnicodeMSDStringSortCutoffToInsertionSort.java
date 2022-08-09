@@ -74,7 +74,7 @@ public final class UnicodeMSDStringSortCutoffToInsertionSort extends BaseCountin
         // XXX if there are fewer than two elements, we return immediately because xs is already sorted.
         if (n < 2) return;
         // XXX if there is a small number of elements, we switch to insertion sort.
-        if (n < 3)   insertionSort(xs, from, to, d);
+        if (n < 12)   insertionSort(xs, from, to, d);
         else {
             // CONSIDER is this the correct place to allocate aux?
             final Counts counts = new Counts();
@@ -122,6 +122,6 @@ public final class UnicodeMSDStringSortCutoffToInsertionSort extends BaseCountin
 
     final static LazyLogger logger = new LazyLogger(UnicodeMSDStringSortCutoffToInsertionSort.class);
 
-    private final CharacterMap characterMap; // NOTE this is used, despite IDEA's analysis.
-    private final CountingSortHelper<UnicodeString, UnicodeCharacter> helper;
+     CharacterMap characterMap; // NOTE this is used, despite IDEA's analysis.
+     CountingSortHelper<UnicodeString, UnicodeCharacter> helper;
 }
