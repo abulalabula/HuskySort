@@ -156,16 +156,16 @@ public class UnicodeMSDStringSortTest {
         assertEquals(estimatedHits, hits, 1000);
     }
     @Test
-    public void test() {
-        for (int i = 1; i <= 200; i *= 2) {
+    public void benchmark() {
+        for (int i = 1; i <= 10; i++) {
             final String[] words = HuskySortBenchmarkHelper.getWords(CHINESE_NAMES_CORPUS, HuskySortBenchmark::lineAsList);
             final Random random = new Random(0L);
             int n = i * 1000;
-            System.out.println("n: " + n);
             final Supplier<String[]> wordSupplier = getWordSupplier(words, n, random);
             final Sorter<String> sorter = new UnicodeMSDStringSort(characterMap);
             final Benchmark<String[]> benchmark = new Benchmark<>("TestN1", null, sorter::sortArray, HuskySortBenchmark::checkChineseSorted);
-            final double time = benchmark.run(wordSupplier, 5);
+            final double time = benchmark.run(wordSupplier, 1000);
+            System.out.println("n: " + n);
             System.out.println("Time: " + time);
         }
     }

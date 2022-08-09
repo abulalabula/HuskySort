@@ -1,12 +1,7 @@
 package edu.neu.coe.huskySort.sort.huskySortUtils;
 
-import edu.neu.coe.huskySort.sort.Sorter;
-import edu.neu.coe.huskySort.sort.radix.Alphabet;
-import edu.neu.coe.huskySort.sort.radix.MSDStringSort;
-import edu.neu.coe.huskySort.sort.radix.UnicodeMSDStringSort;
 import org.junit.Test;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class ChineseCharacterTest {
@@ -32,28 +27,8 @@ public class ChineseCharacterTest {
 
     @Test
     public void testConvertToPinyin() {
-        final String 歐 = ChineseCharacter.convertToPinyin("一個大胖蘋果大胖子");
-        //assertEquals("he 2xin 1yu 4", 何欣蔚);
-        System.out.println(歐);
-        //分割string
-        String strArray[] = 歐.split(",");
-
-        // Iterating over the string
-        for (int i = 0; i < strArray.length; i++) {
-            // Printing the elements of String array
-            System.out.print(strArray[i] + ", ");
-        }
-        System.out.print("\n");
-        //MSDStringSort
-        final MSDStringSort msdStringSort = new MSDStringSort(new Alphabet(Alphabet.RADIX_UNICODE));
-        final String[] strings = strArray;
-        msdStringSort.sort(strings);
-        //assertArrayEquals(new String[]{"毕", "卞"}, strings);
-        for (int i = 0; i < strArray.length; i++) {
-            // Printing the elements of String array
-            System.out.print(strArray[i] + ", ");
-        }
-
+        final String 何欣蔚 = ChineseCharacter.convertToPinyin("何欣蔚");
+        assertEquals("he 2xin 1yu 4", 何欣蔚);
     }
 
     @Test
