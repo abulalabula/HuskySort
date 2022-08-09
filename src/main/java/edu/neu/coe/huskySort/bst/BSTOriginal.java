@@ -18,6 +18,22 @@ public class BSTOriginal<Key extends Comparable<Key>, Value> {
         }
     }
 
+    private Node makeNode(Key key, Value value, int size) {
+        return new Node(key, value, size);
+    }
+
+    private Node getRoot() {
+        return root;
+    }
+
+    private void setRoot(Node node) {
+        if (root == null) {
+            root = node;
+            root.size++;
+        } else
+            root = node;
+    }
+
     /**
      * Initializes an empty symbol table.
      */
@@ -99,7 +115,6 @@ public class BSTOriginal<Key extends Comparable<Key>, Value> {
             return;
         }
         root = put(root, key, val);
-//        assert check();
     }
 
     private Node put(Node x, Key key, Value val) {
@@ -122,13 +137,7 @@ public class BSTOriginal<Key extends Comparable<Key>, Value> {
             keyformatted = keyString;
             xkeyformatted = xkeyString;
         }
-//        System.out.println("keyformatted: " + keyformatted + ", xkeyformatted: " + xkeyformatted);
-//        System.out.println(keyformatted.compareTo(xkeyformatted));
-
-//        int cmp = key.compareTo(x.key);
         int cmp = keyformatted.compareTo(xkeyformatted);
-//        System.out.println("cmp: " + cmp);
-//        System.out.println("-----------------");
         if (cmp < 0) x.left = put(x.left, key, val);
         else if (cmp > 0) x.right = put(x.right, key, val);
         else x.val = val;
@@ -145,7 +154,6 @@ public class BSTOriginal<Key extends Comparable<Key>, Value> {
     public void deleteMin() {
         if (isEmpty()) throw new NoSuchElementException("Symbol table underflow");
         root = deleteMin(root);
-        //assert check();
     }
 
     private Node deleteMin(Node x) {
@@ -163,7 +171,6 @@ public class BSTOriginal<Key extends Comparable<Key>, Value> {
     public void deleteMax() {
         if (isEmpty()) throw new NoSuchElementException("Symbol table underflow");
         root = deleteMax(root);
-        //assert check();
     }
 
     private Node deleteMax(Node x) {
@@ -183,7 +190,6 @@ public class BSTOriginal<Key extends Comparable<Key>, Value> {
     public void delete(Key key) {
         if (key == null) throw new IllegalArgumentException("calls delete() with a null key");
         root = delete(root, key);
-        //assert check();
     }
 
     public void deleteLeft(Key key) {
@@ -191,14 +197,8 @@ public class BSTOriginal<Key extends Comparable<Key>, Value> {
     }
 
     private Node delete(Node x, Key key) {
-        //System.out.println("Node x: " + x + "key: " + key);
         if (x == null) return null;
-
         int cmp = key.compareTo(x.key);
-//        System.out.println("key: " + key);
-//        System.out.println("x.key: " + x.key);
-//        System.out.println("cmp: " + cmp);
-
         if (cmp < 0) x.left = delete(x.left, key);
         else if (cmp > 0) x.right = delete(x.right, key);
         else {
@@ -206,7 +206,6 @@ public class BSTOriginal<Key extends Comparable<Key>, Value> {
             if (x.left == null) return x.right;
             Node t = x;
             x = min(t.right);
-//            System.out.println("x: " + x);
             x.right = deleteMin(t.right);
             x.left = t.left;
         }
@@ -230,7 +229,6 @@ public class BSTOriginal<Key extends Comparable<Key>, Value> {
         x.size = size(x.left) + size(x.right) + 1;
         return x;
     }
-
 
     /**
      * Returns the smallest key in the symbol table.
@@ -382,44 +380,6 @@ public class BSTOriginal<Key extends Comparable<Key>, Value> {
         else return size(x.left);
     }
 
-/*
-
-     * Returns all keys in the symbol table in ascending order,
-     * as an {@code Iterable}.
-     * To iterate over all of the keys in the symbol table named {@code st},
-     * use the foreach notation: {@code for (Key key : st.keys())}.
-     *
-     * @return all keys in the symbol table in ascending order
-
-    public Iterable<Key> keys() {
-        if (isEmpty()) return new Queue<Key>();
-        return keys(min(), max());
-    }
-
-
-     * Returns all keys in the symbol table in the given range
-     * in ascending order, as an {@code Iterable}.
-     *
-     * @param lo minimum endpoint
-     * @param hi maximum endpoint
-     * @return all keys in the symbol table between {@code lo}
-     * (inclusive) and {@code hi} (inclusive) in ascending order
-     * @throws IllegalArgumentException if either {@code lo} or {@code hi}
-     *                                  is {@code null}
-
-
-
-    private void keys(Node x, Queue<Key> queue, Key lo, Key hi) {
-        if (x == null) return;
-        int cmplo = lo.compareTo(x.key);
-        int cmphi = hi.compareTo(x.key);
-        if (cmplo < 0) keys(x.left, queue, lo, hi);
-        if (cmplo <= 0 && cmphi >= 0) queue.enqueue(x.key);
-        if (cmphi > 0) keys(x.right, queue, lo, hi);
-    }
-
-    */
-
     /**
      * Returns the number of keys in the symbol table in the given range.
      *
@@ -440,7 +400,6 @@ public class BSTOriginal<Key extends Comparable<Key>, Value> {
     }
 
 
-
     /**
      * Returns the height of the BST (for debugging).
      *
@@ -450,7 +409,7 @@ public class BSTOriginal<Key extends Comparable<Key>, Value> {
         return height(root);
     }
 
-    private int height(Node x) {
+    public int height(Node x) {
         if (x == null) return -1;
         return 1 + Math.max(height(x.left), height(x.right));
     }
