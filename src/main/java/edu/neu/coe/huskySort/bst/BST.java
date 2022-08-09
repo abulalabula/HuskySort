@@ -23,7 +23,6 @@ public interface BST<Key extends Comparable<Key>, Value> {
      *
      * @param key the key to be inserted/updated.
      * @param value the value to be retrieved by future calls of get(key).
-     * @return the original value, if any, else null.
      */
     Value put(Key key, Value value);
 

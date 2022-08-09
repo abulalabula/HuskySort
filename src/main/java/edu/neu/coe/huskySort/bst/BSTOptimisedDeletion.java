@@ -79,6 +79,7 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
     }
 
     public BSTOptimisedDeletion() {
+
     }
 
     public BSTOptimisedDeletion(Map<Key, Value> map) {
@@ -143,7 +144,7 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
         else
             return(size(node.smaller) + 1 + size(node.larger));
     }
-
+    // Arbitrary substitution principle
     // CONSIDER this should be an instance method of Node.
     private Node delete(Node x, Key key) {
         if (x == null) return null;
@@ -160,7 +161,6 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
         }
         x.count = size(x.smaller) + size(x.larger) + 1;
         return x;
-        // END 
     }
 
     private Node deleteMin(Node x) {

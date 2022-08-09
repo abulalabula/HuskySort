@@ -43,9 +43,16 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
         if (nodeValue.value == null) root.count++;
         return nodeValue.value;
     }
+//    public void put(Key key, Value value) {
+//        root = put(root, key, value);
+//    }
 
     public void delete(Key key) {
         root = delete(root, key);
+    }
+
+    public void deleteLeft(Key key) {
+        root = deleteLeft(root, key);
     }
 
     @Override
@@ -82,12 +89,13 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
 
     Node root = null;
 
+
     private Value get(Node node, Key key) {
         Node result = getNode(node, key);
         return result != null ? result.value : null;
     }
 
-    private Node getNode(Node node, Key key) {
+    public Node getNode(Node node, Key key) {
         if (node == null) return null;
         int cf = key.compareTo(node.key);
         if (cf < 0) return getNode(node.smaller, key);
@@ -103,9 +111,37 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
      * @param value the value to associate with the key
      * @return a tuple of Node and Value: Node is the
      */
+
     private NodeValue put(Node node, Key key, Value value) {
-        // If node is null, then we return the newly constructed Node, and value=null
+
+        String keyformatted = null;
+        String xkeyformatted = null;
+        System.out.println("node: " + node + ", key: " + key + ", value: " + value);
+//        String keyString = String.valueOf(key);
+//        String xkeyString = String.valueOf(node.key);
+//        int keyInt = Integer.parseInt(keyString);
+//        int xkeyInt = Integer.parseInt(xkeyString);
+//
+//        // If node is null, then we return the newly constructed Node, and value=null
         if (node == null) return new NodeValue(new Node(key, value, 0), null);
+//
+//        if (keyString.length() < xkeyString.length()) {
+//            keyformatted = String.format("%0"+ xkeyString.length() +"d", keyInt);
+//            xkeyformatted = xkeyString;
+//        } else if (keyString.length() > xkeyString.length()) {
+//            keyformatted = keyString;
+//            xkeyformatted = String.format("%0"+ keyString.length() +"d", xkeyInt);
+//        } else {
+//            keyformatted = keyString;
+//            xkeyformatted = xkeyString;
+//        }
+//        System.out.println("keyformatted: " + keyformatted + ", xkeyformatted: " + xkeyformatted);
+//        System.out.println(keyformatted.compareTo(xkeyformatted));
+//
+//        int cf = keyformatted.compareTo(xkeyformatted);
+
+
+
         int cf = key.compareTo(node.key);
         if (cf == 0) {
             // If keys match, then we return the node and its value
@@ -131,11 +167,73 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
         }
     }
 
+
+    /*
+    private Node put(Node x, Key key, Value value) {
+        String keyformatted = null;
+        String xkeyformatted = null;
+        String keyString = String.valueOf(key);
+        String xkeyString = String.valueOf(x.key);
+        int keyInt = Integer.parseInt(keyString);
+        int xkeyInt = Integer.parseInt(xkeyString);
+
+        if (x == null) return new Node(key, value, 1);
+
+        if (keyString.length() < xkeyString.length()) {
+            keyformatted = String.format("%0"+ xkeyString.length() +"d", keyInt);
+            xkeyformatted = xkeyString;
+        } else if (keyString.length() > xkeyString.length()) {
+            keyformatted = keyString;
+            xkeyformatted = String.format("%0"+ keyString.length() +"d", xkeyInt);
+        } else {
+            keyformatted = keyString;
+            xkeyformatted = xkeyString;
+        }
+
+        int cmp = keyformatted.compareTo(xkeyformatted);
+        if      (cmp < 0) x.smaller  = put(x.smaller,  key, value);
+        else if (cmp > 0) x.larger = put(x.larger, key, value);
+        else              x.value   = value;
+        x.count = 1 + size(x.smaller) + size(x.larger);
+
+        return x;
+    }
+
+    */
+
     // CONSIDER this should be an instance method of Node.
     private Node delete(Node x, Key key) {
-        // FIXME by replacing the following code
-         return null;
-        // END 
+        if (x == null) return null;
+        int cmp = key.compareTo(x.key);
+        if      (cmp < 0) x.smaller = delete(x.smaller,  key);
+        else if (cmp > 0) x.larger = delete(x.larger, key);
+        else {
+            if (x.larger == null) return x.smaller;
+            if (x.smaller == null) return x.larger;
+            Node t = x;
+            x = min(t.larger);
+            x.larger = deleteMin(t.larger);
+            x.smaller = t.smaller;
+        }
+        x.count = size(x.smaller) + size(x.larger) + 1;
+        return x;
+    }
+
+    private Node deleteLeft(Node x, Key key) {
+        if (x == null) return null;
+        int cmp = key.compareTo(x.key);
+        if      (cmp < 0) x.smaller = delete(x.smaller,  key);
+        else if (cmp > 0) x.larger = delete(x.larger, key);
+        else {
+            if (x.larger == null) return x.smaller;
+            if (x.smaller == null) return x.larger;
+            Node t = x;
+            x = max(t.smaller);
+            x.smaller = deleteMax(t.smaller);
+            x.larger = t.larger;
+        }
+        x.count = size(x.smaller) + size(x.larger) + 1;
+        return x;
     }
 
     private Node deleteMin(Node x) {
@@ -145,7 +243,26 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
         return x;
     }
 
-    private int size(Node x) {
+    private Node deleteMax(Node x) {
+        if (x.larger == null) return x.smaller;
+        x.larger = deleteMax(x.larger);
+        x.count = 1 + size(x.smaller) + size(x.larger);
+        return x;
+    }
+
+    private Node min(Node x) {
+        if (x == null) throw new RuntimeException("min not implemented for null");
+        else if (x.smaller == null) return x;
+        else return min(x.smaller);
+    }
+
+    private Node max(Node x) {
+        if (x == null) throw new RuntimeException("max not implemented for null");
+        else if (x.larger == null) return x;
+        else return max(x.larger);
+    }
+
+    public int size(Node x) {
         return x == null ? 0 : x.count;
     }
 
